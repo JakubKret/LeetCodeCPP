@@ -1,44 +1,35 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
 class Solution {
 public:
     string addBinary(string a, string b) {
-        int x;
-        if (a.length() > b.length()) {
-            x = a.length();
-        } else {
-            x = b.length();
+        string result = "";
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int carry = 0;
+
+        while (i >= 0 || j >= 0 || carry > 0) {
+            int sum = carry;
+
+            if (i >= 0) {
+                sum += a[i] - '0';
+                i--;
+            }
+
+            if (j >= 0) {
+                sum += b[j] - '0';
+                j--;
+            }
+
+            result += (sum % 2) + '0';
+            carry = sum / 2;
         }
-        
-        string result = "0";
-        
-        for (int i = 1; i <= x; i++) {
-            int loc = result[0] - '0'; 
-            
-            if (i <= a.length()) {
-                loc += a[a.length() - i] - '0';
-            }
-            if (i <= b.length()) {
-                loc += b[b.length() - i] - '0';
-            }
-            
-            if (loc == 0 || loc == 2) {
-                result[0] = '0';
-            } else if (loc == 1 || loc == 3) {
-                result[0] = '1';
-            }
-            
-            if (loc >= 2) {
-                result = "1" + result;
-            } else {
-                if (i < x) {
-                    result = "0" + result;
-                }
-            }
-        }
+
+        reverse(result.begin(), result.end());
         
         return result;
     }
