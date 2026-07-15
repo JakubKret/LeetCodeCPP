@@ -1,24 +1,39 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
 class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
+        std::sort(nums.begin(), nums.end());
         int closest_sum = nums[0] + nums[1] + nums[2];
-        int n = nums.size();
-                
-        for (int i = 0; i < n; ++i) {
-            for (int j = i + 1; j < n; ++j) {
-                for (int k = j + 1; k < n; ++k) {
-                    int current_sum = nums[i] + nums[j] + nums[k];
-                                        
-                    if (std::abs(current_sum - target) < std::abs(closest_sum - target)) {
-                        closest_sum = current_sum;
-                    }
+
+        for (int i = 0; i < nums.size() - 2; ++i) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int left = i + 1;
+            int right = nums.size() - 1;
+
+            while (left < right) {
+                int current_sum = nums[i] + nums[left] + nums[right];
+
+                if (current_sum == target) {
+                    return current_sum;
+                }
+
+                if (std::abs(target - current_sum) < std::abs(target - closest_sum)) {
+                    closest_sum = current_sum;
+                }
+
+                if (current_sum < target) {
+                    left++;
+                } else {
+                    right--;
                 }
             }
         }
