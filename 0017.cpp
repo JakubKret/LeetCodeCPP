@@ -10,7 +10,7 @@ public:
         if(digits.empty()) return {};
 
         const vector<string> keyboard = {
-            "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+            "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
         };
 
         vector<string> result;
@@ -26,7 +26,7 @@ private:
             return;
         }
 
-        string letters = keyboard[digits[index] - '0'];
+        string letters = keyboard[digits[index] - '0'-2];
 
         for (char l : letters) {
             curr.push_back(l);
