@@ -1,34 +1,33 @@
 #include <iostream>
 #include <string>
+#include <utility>
 
 using namespace std;
 
 class Solution {
 public:
     string countAndSay(int n) {
-        if (n == 1) return "1";
-        else {
-            string res = "1";
-            for (int i = 1; i < n; i++) {
-                res = rle(res);
-            }
-            return res;
-        }
-    }
-private:
-    string rle(string prev) {
-        int index = 0;
-        string result = "";
-        while (index < prev.length()) {
+        string current = "1";
+
+        for (int i = 1; i < n; i++) {
+            string nextStr;
+            nextStr.reserve(current.length() * 2);
+
             int count = 1;
-            while (index + 1 < prev.length() && prev[index] == prev[index + 1]) {
-                count++;
-                index++;
+            for (int j = 0; j < current.length(); j++) {
+                if (j + 1 < current.length() && current[j] == current[j + 1]) {
+                    count++;
+                } else {
+                    nextStr.push_back(count + '0');
+                    nextStr.push_back(current[j]);
+
+                    count = 1;
+                }
             }
-            result += to_string(count) + prev[index];
-            index++;
+            current = std::move(nextStr);
         }
-        return result;
+
+        return current;
     }
 };
 
